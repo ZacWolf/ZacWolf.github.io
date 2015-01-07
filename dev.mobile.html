@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Zac Morris, IT Architect</title>
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1" />
+		<meta name="robots" content="index, follow" />
+		<meta name="revisit-after" content="7 days" />
+		<meta name="msapplication-config" content="browserconfig.xml" />
+		<meta name="author" content="Zac Morris" />
+		<meta name="description" content="Personal and professional website of Zac Morris" />
+		<meta name="keywords" content="IT, Engineer, Architect, HTML5, JavaScript, CSS3, Programmer, Developer, Technology, Java" />
+		
+		<!-- Twitter Card data -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content="Zac Morris, IT Architect" />
+		<meta name="twitter:description" content="Personal and Professional website of Zac Morris" />
+		<meta name="twitter:creator" content="@zacwolf" />
+		<meta name="twitter:url" content="http://www.zacwolf.com" />
+		<meta name="twitter:image" content="http://zacwolf.com/images/twitter/zacwolf_twitter.png" />
+
+		<!--  OG data -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Zac Morris, IT Architect" />
+		<meta property="og:author" content="Zac Morris" />
+		<meta property="og:description" content="Personal and Professional website of Zac Morris, IT Architect" />
+		<meta property="og:url" content="http://www.zacwolf.com" />
+		<meta property="og:link" content="http://zacwolf.com" />
+		<meta property="og:site_name" content="Zac Morris"/>
+		<meta property="og:image" content="http://www.zacwolf.com/images/LOGO/zacwolf_logo_trans_500.png" />
+		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:width" content="500" />
+		<meta property="og:image:height" content="500" />
+		
+		<link rel='publisher' href='https://plus.google.com/+ZacMorris' />
+		<link rel="apple-touch-icon" href="/images/LOGO/apple/apple-touch-icon.png" />
+		<link rel="apple-touch-icon-precomposed" href="/images/LOGO/apple/apple-touch-icon-precomposed.png" />
+		<link rel="icon" sizes="16x16" href="/images/LOGO/icons/zacwolf.ico" />
+		<link rel="icon" sizes="24x24" href="/images/LOGO/icons/zacwolf24.ico" />
+		<link rel="icon" sizes="32x32" href="/images/LOGO/icons/zacwolf32.ico" />
+		<link rel="icon" sizes="48x48" href="/images/LOGO/icons/zacwolf48.ico" />
+		<link rel="icon" sizes="64x64" href="/images/LOGO/icons/zacwolf64.ico" />
+		<link rel="icon" sizes="128x128" href="/images/LOGO/icons/zacwolf128.ico" />
+		<link rel="icon" sizes="256x256" href="/images/LOGO/icons/zacwolf256.ico" />
+		
+		<link rel="manifest" href="manifest.json" />
+		<base target="_blank" />
+
+	<!--[if gte IE 9]><style type="text/css">.gradient{filter:none;}</style><![endif]-->
+	
+		<script>window.useMin = false;</script>
+		<script src="/js/zacwolf.js"></script>
+
+	<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="/css/section.css" />
+		<link rel="stylesheet" type="text/css" href="/css/zacwolf.css" />
+		<link rel="stylesheet" type="text/css" href="/css/zacwolf_mobile.css" />
+	</head>
+	<body onload="initMobile()">
+		<div class="winbar" height="40" style="height:40px !important;">
+			<img id="winbarlogo" class="logo" src="/images/LOGO/zacwolf_logo_trans_100.png" />
+			<div id="winbarheader" class="header">Zac Morris</div>
+		</div>
+		<div class="topnav">
+			<div class="nav">
+				<span content="about" class="selected">About Me</span>
+				<span content="history">History</span>
+				<span content="interests">Interests</span>
+				<span content="philosophy">Philosophy</span>
+			</div>
+		</div>
+		<div id="contenthtml"></div>
+		<div id="contentcache" style="display:none;"></div>
+		<div id="sizedialog" class="sizedialog" style="display:none;">
+			<div id="topleft"></div>
+			<div id="topright"></div>
+			<div id="bottomright"></div>
+			<div id="bottomleft"></div>
+			<div class="msg">
+				<img src="/images/CORNERS/msg-mobile.png" />
+				<hr size=1></hr>
+				<span id="yesbutton" class="button">Yes, switch.</span>&nbsp;&nbsp;<span id="nobutton" class="button">No, stay.</span>
+			</div>
+		</div>
+		<script>
+var			contentwindow	=
+			{	currenttopic:""
+				,minwidth:590
+				,minheight:475
+				,top:50
+				,left:50
+				,contentresizejs:function(){}
+				,contentintervals:[]
+				,loadContent: 
+					function(contentID,selector,callback){
+						if (contentwindow.currenttopic!==contentID){
+							if (jQuery('#'+contentID).length==0){
+								jQuery.ajax({
+									type:'GET',  
+									url:"op.ui?funct=getcontent&filename="+contentID,
+									dataType:'text', 
+									async:true,  
+									success:function(data){
+										jQuery('#contentcache').append('<div id="'+contentID+'"></div>');
+										jQuery('#'+contentID).text(data);
+										contentwindow.contentresizejs	=	function(){};
+										contentwindow.loadContent(contentID,selector,callback);
+									}
+								});
+							} else {
+								//First clear any intervals started by any previous content
+								for	(var index = 0; index < contentwindow.contentintervals.length; index++) {
+									try{	clearInterval(contentwindow.contentintervals[index]);
+									} catch (err){}
+								}
+								selector.html(jQuery('#'+contentID).text());//This will also launch any JavaScript in the content file
+								contentwindow.contentresizejs();
+								contentwindow.currenttopic	=	contentID;
+								replaceFromNows(selector);
+								if (typeof callback == "function") 
+									callback();
+							}
+						}
+					}
+			};
+			function showContent(contentID,callback){
+				jQuery('.nav > span.selected').removeClass('selected');
+				jQuery('.nav > span[content="'+contentID+'"]').addClass('selected');
+				contentwindow.loadContent(
+					contentID
+					,jQuery('#contenthtml')
+					,callback
+				);
+			}
+			function checkSize(){
+				if (window.ignoresize || !Modernizr.testProp('backgroundSize')|| !meetsMinSize(contentwindow.minwidth,contentwindow.minheight)){
+					if(jQuery("#sizedialog").is(":visible")){
+						jQuery("#sizedialog").hide();
+						window.ignoreresize	=	false; //reset the warning
+					}
+				} else if (!jQuery("#sizedialog").is(":visible")){
+					jQuery("#sizedialog").show();
+					jQuery('#yesbutton').one('click',function(){
+						window.location = (window.location.href.indexOf("dev.")>-1?"dev.":"")+'full.html';
+					})
+					jQuery('#nobutton').one('click',function(){
+						window.ignoresize	=	true;
+						jQuery("#sizedialog").hide();
+					})
+				}
+				contentwindow.contentresizejs();
+			}
+window.initMobile	=	
+		function initPage(){
+			if (typeof jQuery=="undefined" && typeof jQuery.ui != 'undefined'){
+				setTimeout(window.initMobile,100);
+				return;
+			}
+			jQuery('.nav > span').each(
+				function(){
+					jQuery(this).on('click',function(e){
+						showContent(jQuery(this).attr("content"));
+					})
+				}
+			);
+			showContent('about');
+			if (document.createElement('audio').canPlayType('audio/mpeg;')){
+				zenaudio		=	new Audio();
+				zenaudio.src	=	"http://92.222.22.34:7777/stream/;stream.mp3";
+				jQuery('#winbarlogo')
+					.css('cursor','url(/images/ICONS/audio_32.png),pointer')
+					.click(function() {
+						if (zenaudio.paused == false) {
+							zenaudio.pause();
+						} else {
+							zenaudio.play();
+						}
+					})
+			}
+			window.ignoresize	=	false;
+			jQuery(window).on('resize',checkSize);
+			checkSize();
+		}
+		</script>
+	</body>
+</html>

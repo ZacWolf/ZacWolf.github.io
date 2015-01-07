@@ -1,0 +1,9 @@
+<body itemscope itemtype="http://schema.org/Person">
+	<h1 itemprop="name">Zac Morris</h1>
+	<p itemprop="description">Zac Morris, IT Architect</p>
+	<meta itemprop="additionalName">Danny</meta>
+	<img itemprop="image" src="http://zacwolf.com/images/LOGO/zacwolf_logo_trans_500.png" />
+	<meta itemprop="jobTitle">IT Architect</meta>
+	Zac's Homepage:<a href="http://www.zacwolf.com" itemprop="url">www.zacwolf.com</a><br />
+	Zac's Email:<a href="mailto:zac@zacwolf.com" itemprop="email">zac@zacwolf.com</a><br />
+</body>
