@@ -227,8 +227,8 @@ var		contentwindow	=
 					if (contentwindow.currenttopic!==contentID){
 						if (jQuery('#'+contentID).length==0){
 							jQuery.ajax({
-								type:'GET',  
-								url:"http://zacwolf.com/op.ui?funct=getcontent&filename="+contentID,
+								type:'GET',
+								url:"//www.zacwolf.com/op.ui?funct=getcontent&filename="+contentID,
 								dataType:'text', 
 								async:true,  
 								success:function(data){
